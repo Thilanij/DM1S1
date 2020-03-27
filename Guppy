@@ -1,0 +1,35 @@
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=DM1S1_1_Guppy3.5.1 ###name of run
+
+#SBATCH --nodes=1
+
+#SBATCH --gres=gpu:1
+
+#SBATCH --ntasks-per-node=1
+
+#SBATCH --cpus-per-task=10
+
+#SBATCH --time=10:00:00
+
+#SBATCH --mem=10G
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+#SBATCH --constraint="intel18&v100" ## guppy only works on v100 GPUs so you must specify
+
+
+#####Command Lines to Run#####
+
+##using John's Guppy software
+module purge
+module use /mnt/home/johnj/software/modulefiles
+module load Guppy/3.5.1
+
+
+ guppy_basecaller -r --cpu_threads_per_caller 10 --gpu_runners_per_device 10 --num_callers 1 --config dna_r9.4.1_450bps_hac.cfg -x auto --trim_strategy dna --qscore_filtering --calib_detect --calib_reference lambda_3.6kb.fasta --input_path /mnt/scratch/jayakod1/DM1S1/DM1S1_1/Thilani_DM1S1_1/20191122_2012_MN29377_FAL56066_1ed29ef5/fast5 --save_path /mnt/scratch/jayakod1/DM1S1/outputs/DM1S1_1_Guppy3.5.1_fastq
+
+
