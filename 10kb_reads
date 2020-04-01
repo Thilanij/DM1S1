@@ -1,0 +1,8 @@
+#get reads that are greater than 10kb
+awk 'BEGIN {OFS = "\n"} {header = $0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) > 9999) {print header, seq, qheader, qseq}}' *.fastq  > DM1S1_1_10kb.fastq
+
+#number of reads in the file (4 lines per read so you divide the total by 4)
+awk 'END {print "The number of sequences is:" NR/4}' DM1S1_1_10kb.fastq
+
+#number of bases in the file, in the second line of the file, add the length and then print that sum
+awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'  DM1S1_1_10kb.fastq
