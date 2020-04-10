@@ -1,0 +1,7 @@
+###### How much CPU time/ memory######
+sacct -j <jobid> --format="MaxRSS,Elapsed" #command from slurm server that allows you to see information about a job that you have already submitted
+##<jobid> = ex.) 59958152.batch, you can list just 59958152 if you want to check usage of multiple steps
+
+
+
+
