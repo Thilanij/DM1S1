@@ -1,0 +1,28 @@
+####I kept getting errors about running out of memory, so i added the --resume line so that it picks up if I needed to run this script multiple times, but after adding the
+--mem=250g line it ran just fine!######
+
+###flye produces an 'assembly.fasta' file#####
+
+#!/bin/bash --login
+###################
+
+#SBATCH --job-name=new_flye_DM1S1_raw
+
+#SBATCH --mem=250g
+
+#SBATCH --cpus-per-task=32
+
+#SBATCH --time=24:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+##command Lines to Run ####
+
+module purge
+module use /mnt/home/johnj/software/modulefiles
+module load Flye/2.4.2
+
+flye --nano-raw /mnt/scratch/jayakod1/DM1S1/10kb_reads/*.fastq --out-dir /mnt/scratch/jayakod1/DM1S1/Flye_raw_assembly --genome-size 850m --threads 30 --resume
