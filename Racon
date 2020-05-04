@@ -1,0 +1,113 @@
+#####First align reads greater than 10kb to raw assembly using minimap2
+#!/bin/bash --login
+###################
+
+#SBATCH --job-name=Minimap2_DM1S1
+
+#SBATCH --nodes=1-3
+
+#SBATCH --cpus-per-task=16
+
+#SBATCH --time=2:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+##command Lines to run######
+
+module purge
+module load GCC/7.3.0-2.30  OpenMPI/3.1.1 minimap2/2.13
+
+minimap2 -t 16 -x map-ont /mnt/scratch/jayakod1/DM1S1/Flye_raw_assembly/assembly.fasta /mnt/scratch/jayakod1/DM1S1/10kb_reads/*.fastq | gzip -1 > /mnt/scratch/jayakod1/DM1S1/minimap2/DM1S1.aln.paf.gz
+
+
+
+
+
+#####Then error correct first round using Racon######## 
+
+#!/bin/bash --login
+###################
+
+#SBATCH --job-name=Racon_1_DM1S1
+
+#SBATCH --nodes=1-3
+
+#SBATCH --mem=250G
+
+#SBATCH --cpus-per-task=16
+
+#SBATCH --time=12:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+##command Lines to run######
+
+module purge
+module load GCCcore/7.3.0 Racon/1.3.2
+racon -u -t 16 /mnt/scratch/jayakod1/DM1S1/10kb_reads/10kb_reads.fastq /mnt/scratch/jayakod1/DM1S1/minimap2/DM1S1.aln.paf.gz /mnt/scratch/jayakod1/DM1S1/Flye_raw_assembly/assembly.fasta > /mnt/scratch/jayakod1/DM1S1/racon/DM1S1_flye_asm.racon.fa
+
+
+
+
+
+#####Align reads greater than 10kb again using minimap2 to the first round Racon error corrected assembly######## 
+#!/bin/bash --login
+###################
+
+#SBATCH --job-name=Minimap2_DM1S1
+
+#SBATCH --nodes=1-3
+
+#SBATCH --cpus-per-task=16
+
+#SBATCH --time=2:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+##command Lines to run######
+
+module purge
+module load GCC/7.3.0-2.30  OpenMPI/3.1.1 minimap2/2.13
+
+minimap2 -t 16 -x map-ont /mnt/scratch/jayakod1/DM1S1/racon/DM1S1_flye_asm.racon.fa /mnt/scratch/jayakod1/DM1S1/10kb_reads/*.fastq | gzip -1 > /mnt/scratch/jayakod1/DM1S1/minimap2/DM1S1.aln_2.paf.gz
+
+
+
+
+
+
+
+#####Then a second round of Racon#######
+#!/bin/bash --login
+###################
+
+#SBATCH --job-name=Racon_1_DM1S1
+
+#SBATCH --nodes=1-3
+
+#SBATCH --mem=400G
+
+#SBATCH --cpus-per-task=16
+
+#SBATCH --time=4:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+##command Lines to run######
+
+module purge
+module load GCCcore/7.3.0 Racon/1.3.2
+racon -u -t 16 /mnt/scratch/jayakod1/DM1S1/10kb_reads/10kb_reads.fastq /mnt/scratch/jayakod1/DM1S1/minimap2/DM1S1.aln_2.paf.gz /mnt/scratch/jayakod1/DM1S1/racon/DM1S1_flye_asm.racon.fa > /mnt/scratch/jayakod1/DM1S1/racon/DM1S1_flye_asm.racon.racon.fa
+
