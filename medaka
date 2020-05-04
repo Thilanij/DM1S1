@@ -1,0 +1,37 @@
+##### Use assembly that's been error corrected with two rounds of Racon####
+####Error correction using Medaka######
+###You can find the model versions ({pore}_{device}_{caller variant}_{caller version}) using this command ####
+medaka tools list\_models
+
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=Medaka_DM1S1
+
+#SBATCH --nodes=1
+
+#SBATCH --mem=100g
+
+#SBATCH --cpus-per-task=16
+
+#SBATCH --time=24:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+
+module purge
+module use /mnt/home/johnj/software/modulefiles
+module load medaka/0.12.1.Py3
+
+mini_align -i /mnt/scratch/jayakod1/DM1S1/10kb_reads/10kb_reads.fastq -r /mnt/scratch/jayakod1/DM1S1/racon/DM1S1_flye_asm.racon.racon.fa -m -p /mnt/scratch/jayakod1/DM1S1/medaka/DM1S1_ont_reads_DM1S1_asm.aln -t 16
+
+
+medaka consensus /mnt/scratch/jayakod1/DM1S1/medaka/DM1S1_ont_reads_DM1S1_asm.aln.bam /mnt/scratch/jayakod1/DM1S1/medaka/DM1S1_flye_asm.racon.racon.medaka.hdf --model r941_min_high_g351 --batch 200 --threads 8
+
+
