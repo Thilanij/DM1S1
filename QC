@@ -1,0 +1,13 @@
+# extract gene sequneces using V4 annotation GFF3 file
+####The chromosome names on the reference and fasta and the annotation file have to match
+#To check the chromosome names in fasta file
+grep '>' potato_dm_v404_all_pm_un.fasta # result is >chr01, >chr02, >chr03, >chr04, >chr05, >chr06, >chr07, >chr08, >chr09, >chr10, >chr11, >chr12, >chr00, ChrUn
+
+#This differs from the GFF naming of the chromosomes as 'ST4.ch01', etc
+#To change the chromosome names in the annotation files so that it matches the fasta file names
+#sed takes any string that contains "ST4.03ch" and replaces it with "chr" from our GFF file and then writes it to a new GFF file
+sed 's/ST4.03ch/chr/' PGSC_DM_V403_genes.gff > PGSC_DM_V4304_genes1.gff
+
+bedtools getfasta [OPTIONS] -fi <input FASTA> -bed <BED/GFF/VCF> -fo <output FASTA>
+
+bedtools getfasta -fi /mnt/scratch/jayakod1/DM1S1/dm5_allchr_gapfilled_oriented.fa -bed /mnt/scratch/jayakod1/PGSC_DM_V403_representative_genes.gff -fo /mnt/scratch/jayakod1/DM1S1/PGSC_DM_V403_representative_genes.fasta
