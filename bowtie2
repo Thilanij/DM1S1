@@ -1,0 +1,36 @@
+####for aligning short reads to assembly for pilon to error correct with######
+
+
+
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=bowtie2
+
+#SBATCH --nodes=1
+
+#SBATCH --mem=100g
+
+#SBATCH --cpus-per-task=20
+
+#SBATCH --time=24:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+
+module purge
+module load GCC/7.3.0-2.30  OpenMPI/3.1.1 Bowtie2/2.3.4.2
+
+cd /mnt/scratch/jayakod1/DM1S1/bowtie2/
+
+
+#build index#
+bowtie2-build -f <path to *.fasta> <index name> --threads 18
+
+bowtie2 -x <index name> -f <path to *fasta> -S <what you want to name the .sam file> -p 18 #number of threads
