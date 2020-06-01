@@ -1,0 +1,35 @@
+#### Follow instructions from https://researchit.las.iastate.edu/run-and-configure-busco on how to get and setup configuration filesXXXX
+
+cp opt/software/AUGUSTUS/3.3.3-foss-2019b/config
+cp opt/software/BUSCO/4.0.6-foss-2019b-Python-3.7.4/config/config.ini
+
+
+##run busco##
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=busco
+
+#SBATCH --nodes=1
+
+#SBATCH --cpus-per-task=20
+
+#SBATCH --time=6:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+module purge
+
+
+module load GCC/8.3.0  OpenMPI/3.1.4  BUSCO/4.0.6-Python-3.7.4  AUGUSTUS/3.3.3  HMMER/3.2.1 BLAST+/2.9.0
+export BUSCO_CONFIG_FILE=/mnt/scratch/jayakod1/DM1S1/busco/config.ini       #'config.ini=whatever you named the configuration file
+export AUGUSTUS_CONFIG_PATH=/mnt/scratch/jayakod1/DM1S1/busco/config_augustus #path to config_augustus#
+
+
+busco -i <path to *.fasta> -l <path to lineage dataset, for potato download embyrophyta_odb10> -o <ouput directory name> -m genome -f
