@@ -1,0 +1,35 @@
+#after running flye, racon and medaka, use illumina short reads to correct assembly#
+#first run bowtie2 or bwa to align QC'd illumina reads to assembly, then conver .sam file to .bam using samtools#
+#can do multiple rounds, check the number of changes from each round, when the number no longer decreases and/or the number of complete BUSCOs decrease then stop polishing ##
+
+
+
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=pilon
+
+#SBATCH --nodes=1-10
+
+#SBATCH --mem=800g
+
+#SBATCH --cpus-per-task=16
+
+#SBATCH --time=16:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+module purge
+
+## need to have a high -Xmx memory value for pilon to run on a large polyploid genome###
+#make sure to first align short reads to assembly using bowtie2 or bwa and then run samtools script to convert .sam to .bam before running this###
+module load Pilon/1.23-Java-1.8
+java -Xmx800G -jar $EBROOTPILON/pilon.jar --genome <path to *.fasta> --fix all --changes --frags <path to *.sorted.bam> --outdir <path to output dir> --threads 16
+
+
