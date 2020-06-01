@@ -1,0 +1,35 @@
+##converting .sam files to .bam files####
+
+
+
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=samtools
+#SBATCH --nodes=1
+
+#SBATCH --cpus-per-task=16
+
+#SBATCH --time=6:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+
+
+module purge
+module load GCC/8.3.0  SAMtools/1.10
+
+cd /mnt/scratch/jayakod1/DM1S1/QC
+samtools view -bS *.sam > *.bam
+samtools sort *.bam -o *.sorted.bam
+samtools index *.sorted.bam
+
+#if you arew interested in basic stats from the alignment, add the flagstat command#
+samtools flagstat *.sorted.bam > *.sorted.txt
+
