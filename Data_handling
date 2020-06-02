@@ -13,3 +13,8 @@ sacct -j <jobid> --format="MaxRSS,Elapsed" #command from slurm server that allow
 
 
 
+#create a file with the contig names
+awk '{print $1}' chr03_orderings.txt > chr03_ordering_list.txt
+#use samtools to pull the sequences from the fasta file with the contigs name listed and create a seperate text file containg these
+xargs samtools faidx /mnt/scratch/jayakod1/DM1S1/pilon_round3/DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka.fasta < chr03_ordering_list.txt > chr03_ordering_seq.txt
+
