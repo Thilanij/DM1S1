@@ -5,3 +5,11 @@ sacct -j <jobid> --format="MaxRSS,Elapsed" #command from slurm server that allow
 
 
 
+#remove last two columns in assemblytics_out.Assemblytics_structural_variants.bed so that it can be converted to a vcf
+
+ awk '{$12=$13=""; print $0}' pm_alignments/assemblytics_out.Assemblytics_structural_variants.bed > pm_alignments/assemblytics_out.Assemblytics_structural_variants_col1-11.bed
+
+
+
+
+
