@@ -1,0 +1,40 @@
+
+
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=1S1_q35_bowtie2
+
+#SBATCH --nodes=1
+
+#SBATCH --mem=100G
+
+#SBATCH --cpus-per-task=20
+
+#SBATCH --time=24:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+module purge
+module load GCC/7.3.0-2.30  OpenMPI/3.1.1 Bowtie2/2.3.4.2
+cd /mnt/scratch/jayakod1/DM1S1/Illumina
+
+
+bowtie2-build -f /mnt/scratch/jayakod1/DM1S1/pilon_round3/DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka.fasta.gz DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka --threads 18
+
+bowtie2 -x DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka -1 /mnt/scratch/jayakod1/DM1S1/Illumina/1S1_cutadapt_PE1_q35.fastq  -2 /mnt/scratch/jayakod1/DM1S1/Illumina/1S1_cutadapt_PE1_q35.fastq  -S 1S1_q$
+
+
+module purge
+module load GCC/8.3.0  SAMtools/1.10
+
+samtools view -bS 1S1_q35_DM1S1_final.sam  > 1S1_q35_DM1S1_final.bam
+samtools sort 1S1_q35_DM1S1_final.bam -o 1S1_q35_DM1S1_final.sorted.bam
+samtools index 1S1_q35_DM1S1_final.sorted.bam
+samtools flagstat 1S1_q35_DM1S1_final.sorted.bam > 1S1_q35_DM1S1_final..sorted.txt
