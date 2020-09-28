@@ -1,7 +1,7 @@
 #### Follow instructions from https://researchit.las.iastate.edu/run-and-configure-busco on how to get and setup configuration filesXXXX
 
-cp opt/software/AUGUSTUS/3.3.3-foss-2019b/config
-cp opt/software/BUSCO/4.0.6-foss-2019b-Python-3.7.4/config/config.ini
+cp -R /opt/software/AUGUSTUS/3.3.3-foss-2019b/config
+cp /opt/software/BUSCO/4.0.6-foss-2019b-Python-3.7.4/config/config.ini
 
 
 ##run busco##
