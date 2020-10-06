@@ -25,4 +25,6 @@ module purge
 module use /mnt/home/johnj/software/modulefiles
 module load Flye/2.4.2
 
+
+#Can't use --resume on the first pass bc you will get an error saying the save file does not exist. 
 flye --nano-raw /mnt/scratch/jayakod1/DM1S1/10kb_reads/*.fastq --out-dir /mnt/scratch/jayakod1/DM1S1/Flye_raw_assembly --genome-size 850m --threads 30 --resume
