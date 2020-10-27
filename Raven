@@ -8,7 +8,7 @@ cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 
 #to execute raven, change into the "build" directory and use "./bin/raven" command
-## this job took xxxxx hours to run
+## this job took ~4 hours to run
 
 
 #!/bin/bash --login
@@ -31,4 +31,4 @@ cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 cd /mnt/scratch/jayakod1/raven/build
 
-./bin/raven -t 30 --resume /mnt/scratch/jayakod1/DM1S1/10kb_reads/*.fastq > /mnt/scratch/jayakod1/DM1S_raven.fasta
+./bin/raven -t 30 /mnt/scratch/jayakod1/DM1S1/10kb_reads/*.fastq > /mnt/scratch/jayakod1/DM1S_raven.fasta
