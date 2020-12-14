@@ -1,0 +1,39 @@
+
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=1S1_q35_cutadapt
+
+#SBATCH --nodes=1
+
+#SBATCH --mem=100G
+
+#SBATCH --cpus-per-task=20
+
+#SBATCH --time=24:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+module purge
+module load GNU/7.3.0-2.30  OpenMPI/3.1.1-CUDA cutadapt/2.1-Python-3.6.6
+cd /mnt/home/jayakod1/1S1_DM1S1_Illumina
+
+
+cutadapt \ #run cutadapt to clean paired end read files
+-f fastq \ #file type is fastq
+-q 35,35 \ #trim bases with quality score less than 30 from beginning and end of read
+--trim-n \ #trim "N" bases
+-m 100 \ #minimum read length after trimming, remove reads that are less than 100 bp
+-n 3 \ #remove up to 4 adapters from read ends
+-a CAAGCAGAAGACGGCATACGAGATTCATCCTTATCTCGTATGCCGTCTTCTGCTTG\ #Adapter UDI0084 with read 1 (i7)
+-A AATGATACGGCGACCACCGAGATCTACACAGCGAGCTACACTCTTTCCCTACACGACGCTCTTCCGATCT \#reverse compliment of illumina universal adapter UDI0084 for read 2 (i5)
+-o 1S1_q35_PE1.fastq \ #output file for read 1
+-p 1S1_q35_PE2.fastq\ #output file for read 2
+1S1_AA_S1_L005_R1_001.fastq.gz\ #Input files for read 1
+1S1_AA_S1_L005_R2_001.fastq.gz #Input file for read 2
