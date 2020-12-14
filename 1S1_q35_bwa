@@ -1,0 +1,38 @@
+
+#!/bin/bash --login
+####################
+
+#SBATCH --job-name=1S1_q35_bwa
+
+#SBATCH --nodes=1
+
+#SBATCH --mem=100G
+
+#SBATCH --cpus-per-task=20
+
+#SBATCH --time=24:00:00
+
+#SBATCH --mail-type=ALL
+
+#SBATCH --mail-user=jayakod1@msu.edu
+
+
+
+###Command Lines to Run#####
+
+module purge
+module load ifort/2018.1.163-GCC-6.4.0-2.28  impi/2018.1.163 bwa-mem2/2.0
+cd /mnt/home/jayakod1/1S1_DM1S1_Illumina
+
+bwa index -p DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka -f /mnt/home/jayakod1/1S1_DM1S1_Illumina/Ragoo_DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka.fasta.gz  
+bwa mem -t 18  DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka /mnt/home/jayakod1/1S1_DM1S1_Illumina/1S1_q35_PE1.fastq /mnt/home/jayakod1/1S1_DM1S1_Illumina/1S1_q35_PE2.fastq > 1S1_q35_DM1S1_final.sam
+
+
+
+module purge
+module load GCC/8.3.0  SAMtools/1.10
+
+samtools view -bS 1S1_q35_DM1S1_final.sam  > 1S1_q35_DM1S1_final.bam
+samtools sort 1S1_q35_DM1S1_final.bam -o 1S1_q35_DM1S1_final_1.sorted.bam
+samtools index 1S1_q35_DM1S1_final_1.sorted.bam
+samtools flagstat 1S1_q35_DM1S1_final_1.sorted.bam > 1S1_q35_DM1S1_final_1.sorted.txt
