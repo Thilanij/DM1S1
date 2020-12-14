@@ -1,0 +1,4 @@
+
+#data from bowtie2 alignment and index+sorting with samtools
+
+bcftools mpileup -Ou -f Ragoo_DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka.fasta.gz 1S1_q35_DM1S1_final.sorted.bam   | bcftools call -vmO z -o 1S1_q35_DM1S1_samtools.sorted.vcf
