@@ -1,4 +1,13 @@
 
 #data from bowtie2 alignment and index+sorting with samtools
+module purge
+module load 
 
-bcftools mpileup -Ou -f Ragoo_DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka.fasta.gz 1S1_q35_DM1S1_final.sorted.bam   | bcftools call -vmO z -o 1S1_q35_DM1S1_samtools.sorted.vcf
+samtools fixmate -O bam <lane.sam> <lane_fixmate.bam>
+samtools sort -O bam -o <lane_sorted.bam> -T </tmp/lane_temp> <lane_fixmate.sam>
+samtools index <sample_realigned.bam>
+
+module purge
+module load  GNU/6.4.0-2.28  OpenMPI/2.1.2-CUDA bcftools/1.9.64
+
+bcftools mpileup -Ou -f Ragoo_DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka.fasta 1S1_q35_DM1S1_final.sorted.bam   | bcftools call -vmO z -o 1S1_q35_DM1S1_samtools.sorted.vcf
