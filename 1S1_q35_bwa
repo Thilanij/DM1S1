@@ -21,7 +21,7 @@
 ###Command Lines to Run#####
 
 module purge
-module load ifort/2018.1.163-GCC-6.4.0-2.28  impi/2018.1.163 bwa-mem2/2.0
+module load ifort/2017.4.196-GCC-6.4.0-2.28  impi/2017.3.196 BWA/0.7.17 ##I tried using BWA-mem2 but kept getting and "illegal instruction" error, but BWA worked just fine
 cd /mnt/home/jayakod1/1S1_DM1S1_Illumina
 
 bwa index -p DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka -f /mnt/home/jayakod1/1S1_DM1S1_Illumina/Ragoo_DM1S1_flye_asm.pilon.pilon.pilon.racon.racon.medaka.fasta.gz  
