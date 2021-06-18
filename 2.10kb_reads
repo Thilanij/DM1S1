@@ -9,3 +9,10 @@ awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'  DM1S1_1_10kb.
 
 #number of sequences in fastq file is just the total number of lines divided by 4
 cat DM1S1_1_10kb.fastq | echo $((`wc -l`/4))
+
+
+#make a read length distribution from fast q files
+cat reads.fastq | awk '{if(NR%4==2) print length($1)}' | sort -n | uniq -c > read_length.txt
+#and then plot in R
+reads<-read.csv(file="read_length.txt", sep="", header=FALSE)
+plot (reads$V2,reads$V1,type="l",xlab="read length",ylab="occurences",col="blue")
