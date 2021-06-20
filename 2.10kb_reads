@@ -5,7 +5,10 @@ awk 'BEGIN {OFS = "\n"} {header = $0 ; getline seq ; getline qheader ; getline q
 awk 'END {print "The number of sequences is:" NR/4}' DM1S1_1_10kb.fastq
 
 #number of bases in the file, in the second line of the file, add the length and then print that sum
-awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'  DM1S1_1_10kb.fastq
+awk 'BEGIN{sum=0;}{if(NR%4==2){sum+=length($0);}}END{print sum;}'  DM1S1.final_asm.hm.fa 
+
+#number of genes in an annotation
+grep -c "Soltu" .fasta
 
 #number of sequences in fastq file is just the total number of lines divided by 4
 cat DM1S1_1_10kb.fastq | echo $((`wc -l`/4))
